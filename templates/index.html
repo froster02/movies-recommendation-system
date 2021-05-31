@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- styling for html page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        h1 {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        input[type="text"] {
+            border: 1 black;
+            width: 35%;
+            size: 10%;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        tr {
+            text-align: left;
+        }
+
+        #btn {
+            display: inline;
+        }
+
+        #div1, #div2 {
+            width: 100%;
+        }
+
+        td {
+            font-size: 25px;
+            font-family: sans-serif;
+        }
+
+        th {
+            font-size: 26px;
+            font-family: sans-serif;
+        }
+
+        h3 {
+            font-size: 30px;
+            font-family: sans-serif;
+        }
+
+        h5 {
+            color: #2C528C;
+        }
+
+        #id1, #id0 {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        #btn1, #btn2, #btn3 {
+            font-size: 16px;
+            background-color: #4CAF50;
+            padding: 2px 24px;
+            border-radius: 12px;
+            font-family: sans-serif;
+        }
+
+        #bar1, #bar2, #bar3 {
+            border-radius: 10px;
+            height: 20px;
+            font-size: medium;
+            font-family: sans-serif;
+        }
+
+        #id2 {
+            float: right;
+            margin-right: 30px;
+        }
+
+        /* select {
+            float: right;
+        } */
+
+        body {
+            height: auto;
+            background-color: skyblue;
+            background-image: linear-gradient(to bottom right, pink, skyblue);
+            margin-left: 3%;
+            /* background-image: url('https://wallpapercave.com/wp/wp1917176.jpg'); */
+            background-repeat: no-repeat;
+        }
+
+        footer {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        select {
+            margin-left: 0%;
+
+        }
+        
+    </style>
+</head>
+
+<body>
+    <!-- form tag to get movies searched -->
+
+    <h1>MOVIE FINDER</h1>
+
+    <form method="POST" action="/send_data">
+        <center>
+        <div class="form-group" id="search">
+            <input id="bar1" type="text" name="play" placeholder="movies..." required> <br> <br>
+            <input class="btn btn-primary" type="submit" id="btn1" value="search">
+        </div>
+    </center>
+    </form>
+
+    <!-- form tag to get all time hit movies -->
+    <form method="POST" action="/get_top">
+        <div class="form-group" id="id2">
+            <input id="bar2" type="number" name="top" min="1" max="10" placeholder="movies" required>
+            <input class="btn btn-primary" type="submit" id="btn2" value="Hits">
+        </div>
+    </form>
+
+    <!-- form tag to get rating -->
+    <form method="POST" action="/get_rate">
+        <div class="form-group" id="id2">
+            <input id="bar3" type="number" name="rate" min="1.0" max="10.0" placeholder="rating" required>
+            <input class="btn btn-primary" type="submit" id="btn3" value="Rate">
+        </div>
+    </form>
+
+    <!-- form tag to get genere based movies -->
+    <form method="POST" action="/getG">
+        <div class="form-group" id="id3">
+            <!-- <input id="bar3" type="number" name="top" min="1" max="10" placeholder="movies" required> -->
+            <select name="gen">  
+                <option>None</option>
+                <option>Action</option>
+                <option>Comedy</option>
+                <option>Drama</option>
+                <option>Crime</option>
+                <option>Horror</option>
+            </select>
+            <input class="btn btn-primary" type="submit" id="btn3" value="Genres">
+        </div><br>
+    </form>
+
+    <!-- div tag to diplay the movies fetched via first form tag -->
+    <hr>
+    <div id="div1">
+        <table class="table">
+            <th>MOVIES</th>
+            <th id="id0">RATING</th>
+            {% for i in range(movies|length) %}
+            <tr>
+                <td style="text-align:left;">
+                    <hr>
+                    <h5>{{movies[i]}}</h5>
+                </td>
+                <td>
+                    <hr>
+                    <h5 id="id1">{{ratings[i]}}</h5>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- div tag to diplay the movies fetched via second form tag -->
+    <div id="div2">
+        <table class="table">
+            {% for i in range(titles|length) %}
+            <tr>
+                <td style="text-align:left;"><hr>
+                    <h5>{{titles[i]}}</h5>
+                </td>
+                <td><hr>
+                    <h5 id="id1">{{ratings[i]}}</h5>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+
+<footer>&copy; Copyright 2021 | arushnaudiyal@gmail.com</footer>
+
+</html>
