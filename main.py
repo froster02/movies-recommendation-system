@@ -3,6 +3,7 @@
 # IMPORT PYTHON LIBRARIES
 import pandas as pd
 import numpy as np
+import math
 from ast import literal_eval
 
 # READ THE DATA FROM CSV FILE   
@@ -68,12 +69,11 @@ def get_ratings(index):
     return r
 
     # FETH THE VALUES OF INDEX FROM TITLE
-def get_index(title):
-    for i in range(0,len(merged)):
-        if(merged.iloc[i]["title"]==title):
-            index=merged.iloc[i]["index"]
-    return index
-
+# def get_index(title):
+#     for i in range(0,len(merged)):
+#         if(merged.iloc[i]["title"]==title):
+#             index=merged.iloc[i]["index"]
+#     return index
 
 def create_similarity():
 # Apply clean_data function to your features.
@@ -97,8 +97,13 @@ def show_data(movie):
 
     merged, cosine_sim = create_similarity()
 
-    liked_movie = movie        
-    movie_index = get_index(liked_movie)
+    # liked_movie = movie        
+    # movie_index = get_index(liked_movie)
+
+    try:
+        movie_index = merged.loc[merged['title']==movie].index[0]
+    except:
+        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯']
 
     i = int(movie_index)
 
@@ -115,8 +120,8 @@ def show_data(movie):
 
     for element in sorted_similar_movies:
                 
-        s=get_title(element[0])
-        r=get_ratings(element[0])
+        s = get_title(element[0])
+        r = get_ratings(element[0])
                 
         List1[j]=s
         List2[j]=r
@@ -162,7 +167,7 @@ def rate(ch1):
     C = df['vote_average'].mean() 
     m = df['vote_count'].quantile(0.70) 
 
-    res = ((R*v)+ (C*m))/(v+m)
+    res = round(((R*v)+ (C*m))/(v+m),1)
 
     df['weighted_average'] = res
 
