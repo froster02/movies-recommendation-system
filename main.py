@@ -7,47 +7,46 @@ import math
 from ast import literal_eval
 
 # READ THE DATA FROM CSV FILE   
-ds1 = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/tmdb_5000_credits.csv')
-ds2 = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/tmdb_5000_movies.csv')
+# ds1 = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/tmdb_5000_credits.csv')
+# ds2 = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/tmdb_5000_movies.csv')
+df = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/cleaned_dataset.csv')
 
 # CLEANING DATASET 
-ds1 = ds1.rename(index=str, columns={"movie_id" : "id"})
+# ds1 = ds1.rename(index=str, columns={"movie_id" : "id"})
 
-merged = ds1.merge(ds2, on='id')
+# merged = ds1.merge(ds2, on='id')
 
-merged = merged.drop(columns=['budget','homepage','original_language','title_x','production_companies','production_countries','release_date','revenue','runtime','spoken_languages','tagline','title_y'])
+# merged = merged.drop(columns=['budget','homepage','original_language','title_x','production_companies','production_countries','release_date','revenue','runtime','spoken_languages','tagline','title_y'])
 
-merged = merged.rename(index=str, columns={"original_title" : "title"})
+# merged = merged.rename(index=str, columns={"original_title" : "title"})
 
-from ast import literal_eval
+# features = ['cast', 'crew', 'keywords', 'genres']
+# for feature in features:
+#     merged[feature] = merged[feature].apply(literal_eval)
 
-features = ['cast', 'crew', 'keywords', 'genres']
-for feature in features:
-    merged[feature] = merged[feature].apply(literal_eval)
+# def get_director(x):
+#     for i in x:
+#         if i['job'] == 'Director':
+#             return i['name']
+#     return np.nan
 
-def get_director(x):
-    for i in x:
-        if i['job'] == 'Director':
-            return i['name']
-    return np.nan
+# def get_list(x):
+#     if isinstance(x, list):
+#         names = [i['name'] for i in x]
+#         if len(names) > 3:
+#             names = names[:3]
+#         return names
+#     return []
 
-def get_list(x):
-    if isinstance(x, list):
-        names = [i['name'] for i in x]
-        if len(names) > 3:
-            names = names[:3]
-        return names
-    return []
+# merged['director'] = merged['crew'].apply(get_director)
 
-merged['director'] = merged['crew'].apply(get_director)
+# features = ['cast', 'keywords', 'genres']
+# for feature in features:
+#     merged[feature] = merged[feature].apply(get_list)
 
-features = ['cast', 'keywords', 'genres']
-for feature in features:
-    merged[feature] = merged[feature].apply(get_list)
+# merged['index'] = range(0, len(merged))
 
-merged['index'] = range(0, len(merged))
-
-df = merged
+merged = df
 
 
 # ************************************************* Cosine Similarity *******************************************************************
@@ -56,17 +55,19 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 def get_title(index):
-    for i in range(0, len(merged)):
-      if(merged.iloc[i]["index"]==index):
-        t = merged.iloc[i]["title"]
-    return t
+    # for i in range(0, len(df)):
+    #   if(df.iloc[i]["index"]==index):
+    #     t = df.iloc[i]["title"]
+    # return t
+    return df[df.index == index]["title"].values[0]
 
     # FETH THE VALUES OF RATINGS FROM INDEX
 def get_ratings(index):
-    for i in range(0, len(merged)):
-      if(merged.iloc[i]["index"]==index):
-        r = merged.iloc[i]["vote_average"]
-    return r
+    # for i in range(0, len(df)):
+    #   if(df.iloc[i]["index"]==index):
+    #     r = df.iloc[i]["vote_average"]
+    # return r
+    return df[df.index == index]["vote_average"].values[0]
 
     # FETH THE VALUES OF INDEX FROM TITLE
 # def get_index(title):
@@ -77,31 +78,33 @@ def get_ratings(index):
 
 def create_similarity():
 # Apply clean_data function to your features.
-    features = ['cast', 'keywords', 'director', 'genres']
+    features = ['cast', 'title', 'director', 'genre']
 
     for feature in features:
         # merged[feature] = merged[feature].apply(clean_data)
-        merged[feature] = merged[feature].fillna('')
+        df[feature] = df[feature].fillna('')
     def combined_features(row):
-        return ' '.join(row['keywords']) + ' ' + ' '.join(row['cast']) + ' ' + row['director'] + ' ' + ' '.join(row['genres'])
+        # return ' '.join(row['keywords']) + ' ' + ' '.join(row['cast']) + ' ' + row['director'] + ' ' + ' '.join(row['genre'])
+        return ' '.join(row['title']) + ' ' + ' '.join(row['cast']) + ' ' + row['director'] + ' ' + ' '.join(row['genre'])
+        # return row['keywords']+" "+row['cast']+" "+row['genre']+" "+row['title']
 
-    merged['combining'] = merged.apply(combined_features, axis=1)
+    df['combining'] = df.apply(combined_features, axis=1)
 
     count = CountVectorizer()
-    count_matrix = count.fit_transform(merged['combining'])
+    count_matrix = count.fit_transform(df['combining'])
 
     cosine_sim = cosine_similarity(count_matrix)
-    return merged, cosine_sim
+    return df, cosine_sim
   
 def show_data(movie):
 
-    merged, cosine_sim = create_similarity()
+    df, cosine_sim = create_similarity()
 
     # liked_movie = movie        
     # movie_index = get_index(liked_movie)
 
     try:
-        movie_index = merged.loc[merged['title']==movie].index[0]
+        movie_index = df.loc[df['title']==movie].index[0]
     except:
         return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯']
 
