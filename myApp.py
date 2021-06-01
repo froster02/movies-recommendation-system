@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request
 from numpy import tile
-from main import show_data, gen, top, rate
+from main import show_data, top, rate
 
 app = Flask(__name__)
 
@@ -28,12 +28,12 @@ def show_ratings():
     return render_template('index.html', titles = titles, ratings=ratings)
 
 # post GENRES
-@app.route('/getG', methods = ['POST'])
-def show_genre():
-    ch2 = request.form['gen']
-    ch2 = str(ch2)
-    titles,ratings = gen(ch2)
-    return render_template('index.html', titles = titles, ratings=ratings)
+# @app.route('/getG', methods = ['POST'])
+# def show_genre():
+#     ch2 = request.form['gen']
+#     ch2 = str(ch2)
+#     titles,ratings = gen(ch2)
+#     return render_template('index.html', titles = titles, ratings=ratings)
 
 # post SEARCH
 @app.route('/send_data', methods = ['POST'])

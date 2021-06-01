@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/new_cleaned_dataset.csv')
+df = pd.read_csv('new_cleaned_dataset.csv')
 
 # id|crew|keywords|title|overview|popularity|release_date|status|tagline|vote_average|vote_count|genre|director|index|cast
 
@@ -14,26 +14,18 @@ merged = df
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-def get_title(index):
-    return df[df.index == index]["title"].values[0]
-
 def fun2_enumerate(sequence, start=0):
     n = start
     for elem in sequence:
         yield n, elem
         n += 1
 
-
-def get_ratings(index):
-    return df[df.index == index]["vote_average"].values[0]
-# genre, director, keywords, crew_list
 def create_similarity():
     features = ['cast', 'keywords', 'director', 'genre']
 
     for feature in features:
         df[feature] = df[feature].fillna('')
     def combined_features(row):
-        # return ' '.join(row['cast']) + ' ' + row['genre'] + ' ' + ' '.join(row['title'])
         return row['cast'] + " " + row['keywords'] + " " + row['director']+ " " +row['genre']
 
     df['combining'] = df.apply(combined_features, axis=1)
@@ -68,8 +60,10 @@ def show_data(movie):
 
     for element in sorted_similar_movies:
                 
-        s = get_title(element[0])
-        r = get_ratings(element[0])
+        # s = get_title(element[0])
+        index = element[0]
+        s = df[df.index == index]["title"].values[0]
+        r = df[df.index == index]["vote_average"].values[0]
                 
         List1[j]=s
         List2[j]=r
@@ -133,24 +127,4 @@ def rate(ch1):
             if i>=10:
                 break    
     return (List5, List6)
-
-
-#****************************************************** GENRES ******************************************************************************
-df1 = df
-def gen(ch2):
-    print(ch2)
-    df['genre'] = df['genre'].fillna('')
-    vectorizer = CountVectorizer()
     
-    vect = vectorizer.fit_transform(df['genre'])
-
-    similarity = cosine_similarity(vect)
-    i = df.loc[df['genre']==ch2].index[0]
-    lst = list(enumerate(similarity[i]))
-    l1=[]
-    for i in range(len(lst)):
-        a = lst[i][0]
-        l1.append(df['genre'][a])
-    print(l1)
-    return l1
-# gen('Adventure').head()
