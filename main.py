@@ -5,6 +5,8 @@ import numpy as np
 
 df = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/cleaned_dataset.csv')
 
+# id|crew|keywords|title|overview|popularity|release_date|status|tagline|vote_average|vote_count|genre|director|index|cast
+
 merged = df
 
 # ************************************************* Cosine Similarity *******************************************************************
@@ -17,26 +19,32 @@ def get_title(index):
 
 def clean_data(x):
     if isinstance(x, list):
-        return [str.lower(i.replace(" ", "")) for i in x]
+        return [str(i.replace(" ", "")) for i in x]
     else:
         #Check if director exists. If not, return empty string
         if isinstance(x, str):
-            return str.lower(x.replace(" ", ""))
+            return str(x.replace(" ", ""))
         else:
             return ''
+
+def fun2_enumerate(sequence, start=0):
+    n = start
+    for elem in sequence:
+        yield n, elem
+        n += 1
+
 
 def get_ratings(index):
     return df[df.index == index]["vote_average"].values[0]
 
 def create_similarity():
-    features = ['cast', 'director', 'genre', 'keywords']
+    features = ['cast', 'director', 'genre', 'overview']
 
     for feature in features:
-        # df[feature] = df[feature].fillna('')
         df[feature] = df[feature].apply(clean_data)
     def combined_features(row):
         # return ' '.join(row['cast']) + ' ' + row['genre'] + ' ' + ' '.join(row['title'])
-        return row['cast']+" "+row['genre']+" "+row['title']+row['keywords']
+        return row['cast']+" "+row['genre']+" "+row['title']+row['overview']
 
     df['combining'] = df.apply(combined_features, axis=1)
 
@@ -57,7 +65,7 @@ def show_data(movie):
 
     i = int(movie_index)
 
-    similar_movies = list(enumerate(cosine_sim[i]))
+    similar_movies = list(fun2_enumerate(cosine_sim[i]))
         
     sorted_similar_movies = sorted(similar_movies,key = lambda x:x[1], reverse = True)  
 
