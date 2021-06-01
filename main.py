@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/cleaned_dataset.csv')
+df = pd.read_csv('/Users/arushnaudiyal/Desktop/testing-movies/Dataset/new_cleaned_dataset.csv')
 
 # id|crew|keywords|title|overview|popularity|release_date|status|tagline|vote_average|vote_count|genre|director|index|cast
 
@@ -17,16 +17,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 def get_title(index):
     return df[df.index == index]["title"].values[0]
 
-def clean_data(x):
-    if isinstance(x, list):
-        return [str(i.replace(" ", "")) for i in x]
-    else:
-        #Check if director exists. If not, return empty string
-        if isinstance(x, str):
-            return str(x.replace(" ", ""))
-        else:
-            return ''
-
 def fun2_enumerate(sequence, start=0):
     n = start
     for elem in sequence:
@@ -36,15 +26,15 @@ def fun2_enumerate(sequence, start=0):
 
 def get_ratings(index):
     return df[df.index == index]["vote_average"].values[0]
-
+# genre, director, keywords, crew_list
 def create_similarity():
-    features = ['cast', 'director', 'genre', 'overview']
+    features = ['cast', 'keywords', 'director', 'genre']
 
     for feature in features:
-        df[feature] = df[feature].apply(clean_data)
+        df[feature] = df[feature].fillna('')
     def combined_features(row):
         # return ' '.join(row['cast']) + ' ' + row['genre'] + ' ' + ' '.join(row['title'])
-        return row['cast']+" "+row['genre']+" "+row['title']+row['overview']
+        return row['cast'] + " " + row['keywords'] + " " + row['director']+ " " +row['genre']
 
     df['combining'] = df.apply(combined_features, axis=1)
 
@@ -148,26 +138,19 @@ def rate(ch1):
 #****************************************************** GENRES ******************************************************************************
 df1 = df
 def gen(ch2):
-
-    df1 = df.loc[df['genre']==ch2].index[0]
-
-    v = df1['vote_count']
-    r = df1['vote_average']
-    C = r.mean()
-    m = v.quantile(0.95)
+    print(ch2)
+    df['genre'] = df['genre'].fillna('')
+    vectorizer = CountVectorizer()
     
-    qualified = df1[(v >= m) & (v.notnull()) & (r.notnull())][['title', 'vote_count', 'vote_average']]
-    qualified['vote_count'] = qualified['vote_count'].astype('int')
-    qualified['vote_average'] = qualified['vote_average'].astype('int')
-    
-    qualified['wr'] = qualified.apply(lambda x: (x['vote_count']/(x['vote_count']+m) * x['vote_average']) + (m/(m+x['vote_count']) * C), axis=1)
-    qualified = qualified.sort_values('wr', ascending=False)
+    vect = vectorizer.fit_transform(df['genre'])
 
-    title = qualified['title'].head(ch2)
-    ratings = qualified['vote_average'].head(ch2)
-
-    list7 = title.values.tolist()
-    list8 = ratings.values.tolist()
-
-    return list7, list8
+    similarity = cosine_similarity(vect)
+    i = df.loc[df['genre']==ch2].index[0]
+    lst = list(enumerate(similarity[i]))
+    l1=[]
+    for i in range(len(lst)):
+        a = lst[i][0]
+        l1.append(df['genre'][a])
+    print(l1)
+    return l1
 # gen('Adventure').head()

@@ -31,6 +31,7 @@ def show_ratings():
 @app.route('/getG', methods = ['POST'])
 def show_genre():
     ch2 = request.form['gen']
+    ch2 = str(ch2)
     titles,ratings = gen(ch2)
     return render_template('index.html', titles = titles, ratings=ratings)
 
