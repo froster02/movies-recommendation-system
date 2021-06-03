@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request
 from numpy import tile
-from main import show_data, top, rate, detail
+from main import show_data, top, rate, send_detail
 
 app = Flask(__name__)
 
@@ -16,8 +16,16 @@ def show_index_html():
 @app.route('/send_data', methods = ['POST'])
 def get_data_from_html():
         play = request.form['play']
-        movies,ratings,detail = show_data(play)
-        return render_template('SearchResult.html', movies = movies, ratings=ratings, detail=detail)
+        movies,ratings,details = show_data(play)
+        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details)
+
+# post DETAILS
+@app.route('/send_detail', methods = ['POST'])
+def send_details():
+        detail_btn = request.form['detail_btn']
+        detail_btn = int(detail_btn)
+        t, o, r, d = send_detail(detail_btn)
+        return render_template('details.html',t=t,o=o,r=r,d=d)
 
 # post HITS
 @app.route('/get_top', methods = ['POST'])
@@ -34,14 +42,6 @@ def show_ratings():
     ch1 = float(ch1)
     titles,ratings = rate(ch1)
     return render_template('index.html', titles = titles, ratings=ratings)
-
-# post DETAIL
-@app.route('/getD', methods = ['POST'])
-def show_details():
-    ch2 = request.form['detail']
-    ch2 = int(ch2)
-    titles,ratings = detail(ch2)
-    return render_template('details.html', titles = titles, ratings=ratings)
 
 if __name__ == '__main__':
     app.run(debug=True)

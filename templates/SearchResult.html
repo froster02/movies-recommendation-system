@@ -119,12 +119,15 @@
             color: black;
             /* text-decoration: none; */
         }
+
+        #sug{
+            float: right;
+        }
     </style>
 
 </head>
 
 <body>
-
     <h1>There you go enjoy!</h1>
     <div id="div1">
         <table class="table">
@@ -142,8 +145,20 @@
                 </td>
                 <td>
                     <!-- tesing************** -->
+                    <!-- <hr> -->
                     <form method="POST" action="/send_data">
-                        <input name="detail" class="btn btn-primary" type="submit" id="btn0" value="details" <h5 id="id1">{{detail['detail']}}</h5>
+                        
+                        <input class="btn btn-primary" type="submit" id="sug" name="play" value="{{movies[i]}}">
+                        <!-- <input type="hidden" id="postId" name="postId" value="34657"> -->
+                    </form>
+                </td>
+                <td>
+                    <!-- tesing************** -->
+                    <!-- <hr> -->
+                    <form method="POST" action="/send_detail">
+                        
+                        <input class="btn btn-primary" type="submit" id="sug" name="detail_btn" value="{{details[i]}}">
+                        <!-- <input type="hidden" id="postId" name="postId" value="34657"> -->
                     </form>
                 </td>
             </tr>
