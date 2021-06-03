@@ -14,5 +14,6 @@
             "username": "arush",
             "password": ""
         }
-    ]
+    ],
+    "python.pythonPath": "venv/bin/python"
 }
