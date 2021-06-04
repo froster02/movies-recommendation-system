@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/',methods = ['GET'])
 def show_index_html():
     # return render_template('index.html', movies=[], ratings=[])
-    return render_template('index.html', movies=[], ratings=[])
+    return render_template('index.html')
 
 # post SEARCH
 @app.route('/send_data', methods = ['POST'])
@@ -42,6 +42,10 @@ def show_ratings():
     ch1 = float(ch1)
     titles,ratings = rate(ch1)
     return render_template('index.html', titles = titles, ratings=ratings)
+
+@app.route('/post', methods=['POST'])
+def cool_form():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

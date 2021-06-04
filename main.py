@@ -1,29 +1,27 @@
 # ************************************************* RECOMMENDATION SYSTEM *****************************************************************
 
-from operator import index
+# from operator import index
 import pandas as pd
-import numpy as np
 # from config import *
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # ************************************************** (REVERT CHANGES) ******************************
 
-df = pd.read_csv('new_cleaned_dataset.csv')
+df = pd.read_csv('testing_dataset.csv', low_memory=False)
 
 # id|crew|keywords|title|overview|popularity|release_date|status|tagline|vote_average|vote_count|genre|director|index|cast
 
 # ************************************************* Cosine Similarity *******************************************************************
 
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-
-def fun1_fillna(x):
-    if isinstance(x, list):
-        return [str(i.replace("NaN", "")) for i in x]
-    else:
-        if isinstance(x, str):
-            return str(x.replace("NaN", ""))
-        else:
-            return ''
+# def fun1_fillna(x):
+#     if isinstance(x, list):
+#         return [str(i.replace("NaN", "")) for i in x]
+#     else:
+#         if isinstance(x, str):
+#             return str(x.replace("NaN", ""))
+#         else:
+#             return ''
 
 def fun2_enumerate(sequence, start=0):
     n = start
@@ -34,12 +32,12 @@ def fun2_enumerate(sequence, start=0):
 def create_similarity():
     features = ['cast', 'keywords', 'director', 'genre']
 
-    for feature in features:
-        df[feature] = df[feature].apply(fun1_fillna)
-    def combined_features(row):
-        return row['cast'] + " " + row['keywords'] + " " + row['director']+ " " +row['genre']
+    # for feature in features:
+    #     df[feature] = df[feature].apply(fun1_fillna)
+    # def combined_features(row):
+    #     return row['cast'] + " " + row['keywords'] + " " + row['director']+ " " +row['genre']
 
-    df['combining'] = df.apply(combined_features, axis=1)
+    # df['combining'] = df.apply(combined_features, axis=1)
 
     count = CountVectorizer()
     count_matrix = count.fit_transform(df['combining'])
@@ -52,7 +50,8 @@ def show_data(movie):
     df, cosine_sim = create_similarity()
 
     try:
-        movie_index = df.loc[df['title']==movie].index[0]
+        # movie_index = df.loc[df['title']==movie].index[0]
+        movie_index = df[df['title']==movie].index[0]
     except:
         return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯']
 
@@ -100,15 +99,15 @@ def send_detail(index):
 # ************************************************* WEIGHTED AVERAGE *********************************************************************************
 
 def top(choice):
-    res = 0
-    v = df['vote_count'] 
-    R = df['vote_average'] 
-    C = df['vote_average'].mean() 
-    m = df['vote_count'].quantile(0.70) 
+    # res = 0
+    # v = df['vote_count'] 
+    # R = df['vote_average'] 
+    # C = df['vote_average'].mean() 
+    # m = df['vote_count'].quantile(0.70) 
 
-    res = ((R*v)+ (C*m))/(v+m)
+    # res = ((R*v)+ (C*m))/(v+m)
 
-    df['weighted_average'] = res
+    # df['weighted_average'] = res
 
     movie_sorted_ranking=df.sort_values('weighted_average',ascending=False)
 
