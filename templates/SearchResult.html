@@ -150,18 +150,19 @@
                 </td>
                 <!-- <td>
                     <form method="POST" action="/send_data">
-                        
                         <input class="btn btn-primary" type="submit" id="sug" name="play" value="{{movies[i]}}">
                     </form>
                 </td> -->
+                {%if movies | length != 1 %} 
+
                 <td>
                     <!-- tesing************** -->
                     <!-- <hr> -->
                     <form method="POST" action="/send_detail">
-                        
                         <input class="btn btn-primary" type="submit" id="sug" name="detail_btn" value="{{details[i]}}">
                     </form>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
