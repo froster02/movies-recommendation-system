@@ -196,8 +196,8 @@ def rate(ch1):
     list5 = []
     list6 = []
 
-    if ch1 > 8 or ch1 < 5:
-        return['Sorry'],['!']
+    if ch1 > 7 or ch1 < 6:
+        return['Sorry the rating range you are looking for is not in our dataset'],['¯\_(ツ)_/¯']
 
     zipped = [x for x in zip(list1, list2) if x[0] >= ch1 and x[0] <= (ch1 + 0.9)]
 
