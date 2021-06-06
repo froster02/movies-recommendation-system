@@ -1,13 +1,13 @@
 # ************************************************* RECOMMENDATION SYSTEM *****************************************************************
 
 # from operator import index
-import enum
+import operator
+from pymongo import ASCENDING
 # import pandas as pd
 from config import *
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# ************************************************** (REVERT CHANGES) ******************************
 
 # df = pd.read_csv('testing_dataset.csv', low_memory=False)
 
@@ -51,6 +51,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 #     return cs
   
 def show_data(movie):
+
+    def features(director, keywords, cast, genre):
+        combining = []
+        for i in range(0, len(director)):
+            combining.append(director[i] + ' ' + keywords[i] + ' ' + cast[i] + ' ' + genre[i])
+        return combining
+    combining = features(director, keywords, cast, genre)
 
     cm = CountVectorizer().fit_transform(combining)
     cs = cosine_similarity(cm)
@@ -138,18 +145,29 @@ def top(choice):
 
     # list3 = title.values.tolist()
     # list4 = ratings.values.tolist()
-    list3 = []
-    list2 = []
-    temp = []
 
-    list3 = weighted_average
-    temp = [x for _,x in sorted(zip(weighted_average, title), key=lambda pair : pair[0])]
-    list3.sort(reverse=True)
+    # String list ot int list
 
-    for i in range(0, choice):
-        list2.append(temp[i])
+    list5 = []
+    list6 = []
 
-    return list2, list3
+    list1 = weighted_average
+    list2 = title
+
+    zipped = zip(list1, list2)
+
+    res = sorted(zipped, key=operator.itemgetter(0), reverse=True)
+
+    list3, list4 = [list(x) for x in zip(*res)]
+
+    for i in range(choice):
+        # print(list3[i], list4[i])
+        list5.append(list4[i])
+        list6.append(list3[i])
+        i+=1
+    
+    return list5, list6
+        
 
 # ***************************************************** RATING ************************************************************
 
@@ -168,22 +186,31 @@ def rate(ch1):
     # movie_sorted_ranking=sorted(weighted_average,ascending=False)
     # movie_sorted_ranking = sorted(weighted_average,reverse=True)
     
-    i=0
-    # List5 =[]    
-    List6 =[]
-    temp = []
+    list1 = weighted_average
 
-    for element in weighted_average :
-        if ( float(element) >= ch1 and float(element) <= ch1 + 0.9):
-            # List5.append(movie_sorted_ranking.iloc[element]['title'])
-            # List6.append(movie_sorted_ranking.iloc[element]['weighted_average'])
-            temp.append(title[weighted_average.index(element)])
-            List6.append(element)
-        i=i+1
-        if i>=10:
-            break 
+    list1 = [float(i) for i in list1]
 
+    # print(res)
 
-    return (temp, List6)
+    list2 = title
+    list5 = []
+    list6 = []
+
+    if ch1 > 8 or ch1 < 5:
+        return['Sorry'],['!']
+
+    zipped = [x for x in zip(list1, list2) if x[0] >= ch1 and x[0] <= (ch1 + 0.9)]
+
+    res = sorted(zipped, key=operator.itemgetter(0), reverse=True)
+    # print(res)
+
+    list3, list4 = [list(x) for x in zip(*res)]
+
+    for i in range(10):
+        # print(list3[i], list4[i])
+        list5.append(list4[i])
+        list6.append(list3[i])
+        i+=1
     
-# *****************************testing for mongoDB****************************
+    return list5, list6
+    

@@ -6,7 +6,7 @@ try:
 except:
     print("connection error")
 
-# print("loading...")
+print("loading...")
 
 db = client["db_movie"]
 col = db["new_col_movie"]
@@ -59,11 +59,11 @@ weighted_average = []
 for data in wa:
 	weighted_average.append(data['weighted_average'])
 
-# COMBINING
-co = col.find({}, {'combining' : 1})
-combining = []
-for data in co:
-	combining.append(data['combining'])
+# # COMBINING
+# co = col.find({}, {'combining' : 1})
+# combining = []
+# for data in co:
+# 	combining.append(data['combining'])
 
 # INDEX
 i = col.find({}, {'index' : 1})
