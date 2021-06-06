@@ -9,7 +9,7 @@ except:
 print("loading...")
 
 db = client["db_movie"]
-col = db["new_col_movie"]
+col = db["tmdb_ds"]
 
 # TITLE
 t = col.find({},{'title': 1})
@@ -58,12 +58,6 @@ wa = col.find({},{'weighted_average' : 1})
 weighted_average = []
 for data in wa:
 	weighted_average.append(data['weighted_average'])
-
-# # COMBINING
-# co = col.find({}, {'combining' : 1})
-# combining = []
-# for data in co:
-# 	combining.append(data['combining'])
 
 # INDEX
 i = col.find({}, {'index' : 1})
