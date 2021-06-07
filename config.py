@@ -9,7 +9,7 @@ except:
 print("loading...")
 
 db = client["db_movie"]
-col = db["400_ds"]
+col = db["tmdb_ds"]
 
 # TITLE
 t = col.find({},{'title': 1})
