@@ -81,10 +81,10 @@
         }
 
         #bar4 {
-            
+
             border-radius: 5px;
             height: 20px;
-            width : 200px;
+            width: 200px;
             font-size: medium;
             font-family: sans-serif;
         }
@@ -104,7 +104,6 @@
             background-color: skyblue;
             background-image: linear-gradient(to bottom right, pink, skyblue);
             margin-left: 3%;
-            /* background-image: url('https://wallpapercave.com/wp/wp1917176.jpg'); */
             background-repeat: no-repeat;
         }
 
@@ -129,15 +128,29 @@
             color: black;
             text-decoration: none;
         }
+
         #go {
             float: left;
         }
 
+        #more {
+            font-size: 16px;
+            background-color: #42acaf;
+            padding: 2px 24px;
+            border-radius: 12px;
+            font-family: sans-serif;
+            float: right;
+        }
     </style>
 
 </head>
 
 <body>
+
+    <form method="POST" action="browse">
+        <button id="more" type="submit">Browse More</button>
+    </form>
+
     <!-- form tag to get movies searched -->
     <h1>MOVIE FINDER</h1>
 
@@ -167,21 +180,10 @@
         </div>
     </form>
 
-    <!-- form tag to get desired director movies -->
-    <form method="POST" action="/send_director">
-        <center>
-            <div class="go" id="search">
-                <input id="bar4" type="text" name="dir" required>
-                <input class="btn btn-primary" type="submit" id="btn3" value="Go">
-            </div>
-        </center>
-    </form>
-
-    <!-- div tag to display the movies fetched via first form tag -->
     <hr>
     <div id="div1">
         <table class="table">
-            <th>MOVIES</th>
+            <th>MOVIE</th>
             <th id="id0">RATING</th>
             {% for i in range(movies|length) %}
             <tr>
@@ -191,14 +193,14 @@
                 </td>
                 <td>
                     <hr>
-                    <h5 id="id1">{{ratings[i]}}</h5>
+                    <h5 id="id0">{{ratings[i]}}</h5>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </div>
 
-    <!-- div tag to diplay the movies fetched via second form tag -->
+    <!-- div tag to display the movies fetched via second form tag -->
     <div id="div2">
         <table class="table">
             {% for i in range(titles|length) %}
@@ -228,7 +230,7 @@
         <a id="about" href="https://drive.google.com/file/d/1_9vO4waxDSQYo0LBxYrnJfR7l9_FHOhF/view?usp=sharing">
             .Report
         </a>
-        
+
         <a id="git" href="https://drive.google.com/file/d/1vBPsKiaKvTq8f_716irCns7N0WLMJpT1/view?usp=sharing">
             Video
         </a>

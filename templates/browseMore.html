@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        h1 {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        input[type="text"] {
+            border: 1 black;
+            width: 35%;
+            size: 10%;
+        }
+
+        #btn1 {
+            font-size: 16px;
+            background-color: #4CAF50;
+            padding: 2px 24px;
+            border-radius: 12px;
+            font-family: sans-serif;
+        }
+
+        #bar1 {
+
+            border-radius: 5px;
+            height: 20px;
+            width: 200px;
+            font-size: medium;
+            font-family: sans-serif;
+        }
+
+        body {
+            height: auto;
+            background-color: skyblue;
+            background-image: linear-gradient(to bottom right, pink, skyblue);
+            margin-left: 3%;
+            background-repeat: no-repeat;
+        }
+
+        .id1 {
+            float: left;
+        }
+
+        .id2 {
+            float: right;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Browse movies via Director and Genre</h1>
+
+    <form method="POST" action="/send_director">
+        <h3>Search Director</h3>
+        <div id="id1">
+            <input id="bar1" type="text" name="dir" required>
+            <input class="btn btn-primary" type="submit" id="btn1" value="Go">
+        </div>
+
+    </form>
+
+    <form method="POST" action="/send_genre">
+        <h3>Search Genre</h3>
+        <div id="id2">
+            <!-- <input id="bar1" type="text" name="gen" required> -->
+            <input class="btn btn-primary" type="submit" id="btn1" value="Go">
+
+            <select name="gen" type="text">
+                <option>Action</option>
+                <option>Adventure</option>
+                <option>Comedy</option>
+                <option>Romance</option>
+            </select>
+        </div>
+
+    </form>
+</body>
+
+</html>

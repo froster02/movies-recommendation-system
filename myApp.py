@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request
 from numpy import tile
-from main import show_data, top, rate, send_detail, show_director
+from main import show_data, top, rate, send_detail, show_director, show_genre
 
 app = Flask(__name__)
 
@@ -16,8 +16,8 @@ def show_index_html():
 @app.route('/send_data', methods = ['POST'])
 def get_data_from_html():
         play = request.form['play']
-        movies,ratings,details = show_data(play)
-        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details)
+        movies,ratings,details,genres = show_data(play)
+        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details, genres=genres)
 
 # post DETAILS
 @app.route('/send_detail', methods = ['POST'])
@@ -47,12 +47,23 @@ def show_ratings():
 @app.route('/send_director', methods = ['POST'])
 def show_dir():
         dir = request.form['dir']
-        movies,ratings,details = show_director(dir)
+        movies,ratings,details,genres = show_director(dir)
+        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details, genres=genres)
+
+# post GENRE
+@app.route('/send_genre', methods = ['POST'])
+def show_gen():
+        gen = request.form['gen']
+        movies,ratings,details = show_genre(gen)
         return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details)
 
 @app.route('/post', methods=['POST'])
 def cool_form():
     return render_template('index.html')
+
+@app.route('/browse', methods=['POST'])
+def browse():
+    return render_template('browseMore.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
