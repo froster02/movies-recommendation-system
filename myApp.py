@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request
 from numpy import tile
-from main import show_data, top, rate, send_detail
+from main import show_data, top, rate, send_detail, show_director
 
 app = Flask(__name__)
 
@@ -42,6 +42,13 @@ def show_ratings():
     ch1 = float(ch1)
     titles,ratings = rate(ch1)
     return render_template('index.html', titles = titles, ratings=ratings)
+
+# post DIRECTOR
+@app.route('/send_director', methods = ['POST'])
+def show_dir():
+        dir = request.form['dir']
+        movies,ratings,details = show_director(dir)
+        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details)
 
 @app.route('/post', methods=['POST'])
 def cool_form():

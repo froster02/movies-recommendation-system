@@ -80,6 +80,15 @@
             font-family: sans-serif;
         }
 
+        #bar4 {
+            
+            border-radius: 5px;
+            height: 20px;
+            width : 200px;
+            font-size: medium;
+            font-family: sans-serif;
+        }
+
         #id2 {
             float: right;
             margin-right: 30px;
@@ -120,6 +129,10 @@
             color: black;
             text-decoration: none;
         }
+        #go {
+            float: left;
+        }
+
     </style>
 
 </head>
@@ -136,6 +149,7 @@
             </div>
         </center>
     </form>
+    <br>
 
     <!-- form tag to get all time hit movies -->
     <form method="POST" action="/get_top">
@@ -153,7 +167,17 @@
         </div>
     </form>
 
-    <!-- div tag to diplay the movies fetched via first form tag -->
+    <!-- form tag to get desired director movies -->
+    <form method="POST" action="/send_director">
+        <center>
+            <div class="go" id="search">
+                <input id="bar4" type="text" name="dir" required>
+                <input class="btn btn-primary" type="submit" id="btn3" value="Go">
+            </div>
+        </center>
+    </form>
+
+    <!-- div tag to display the movies fetched via first form tag -->
     <hr>
     <div id="div1">
         <table class="table">

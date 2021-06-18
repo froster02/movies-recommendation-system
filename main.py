@@ -117,6 +117,53 @@ def show_data(movie):
                 
     return (title_list1, rating_list1, detail_list1)
 
+# ***************************************
+def show_director(dir):
+
+    def features(director):
+        combining = []
+        for i in range(0, len(director)):
+            combining.append(director[i])
+        return combining
+    combining = features(director)
+
+    cm = CountVectorizer().fit_transform(combining)
+    cs = cosine_similarity(cm)
+
+    try:
+        movie_index = director.index(dir)
+    except:
+        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], []
+
+    similar_movies = list(enumerate(cs[movie_index]))
+        
+    sorted_similar_movies = sorted(similar_movies,key = lambda x:x[1], reverse = True)      
+                    
+    i=0
+    j=0
+
+    title_list1 =[]   
+    rating_list1 =[]
+    detail_list1 =[]
+
+    for element in sorted_similar_movies:
+        
+        movie_title = title[element[0]]
+        movie_rating = vote_average[element[0]]
+
+        title_list1.append(movie_title)
+        rating_list1.append(movie_rating)
+        detail_list1.append(element[0])
+
+        j=j+1 
+        i=i+1
+        if i>=5:
+            break
+                
+    return (title_list1, rating_list1, detail_list1)
+
+# ************************************
+
 def send_detail(index):
     t = title[index]
     d = director[index]
