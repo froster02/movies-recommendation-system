@@ -63,6 +63,7 @@ def show_data(movie):
     cm = CountVectorizer().fit_transform(combining)
     cs = cosine_similarity(cm)
     # df, cosine_sim = create_similarity()
+    # print(cs)
 
     try:
         # movie_index = df.loc[df['title']==movie].index[0]
