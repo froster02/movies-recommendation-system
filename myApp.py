@@ -54,8 +54,8 @@ def show_dir():
 @app.route('/send_genre', methods = ['POST'])
 def show_gen():
         gen = request.form['gen']
-        movies,ratings,details = show_genre(gen)
-        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details)
+        movies,ratings,details, genres= show_genre(gen)
+        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details, genres=genres)
 
 @app.route('/post', methods=['POST'])
 def cool_form():

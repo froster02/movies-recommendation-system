@@ -199,22 +199,25 @@ def show_genre(gen):
     title_list1 =[]   
     rating_list1 =[]
     detail_list1 =[]
+    genre_list1 =[]
 
     for element in sorted_similar_movies:
         
         movie_title = title[element[0]]
         movie_rating = vote_average[element[0]]
+        movie_dir = genre[element[0]]
 
         title_list1.append(movie_title)
         rating_list1.append(movie_rating)
         detail_list1.append(element[0])
+        genre_list1.append(movie_dir)
 
         j=j+1 
         i=i+1
         if i>=5:
             break
                 
-    return (title_list1, rating_list1, detail_list1)
+    return (title_list1, rating_list1, detail_list1, genre_list1)
 
 # 
 
