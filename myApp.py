@@ -17,7 +17,7 @@ def show_index_html():
 def get_data_from_html():
         play = request.form['play']
         movies,ratings,details,genres = show_data(play)
-        return render_template('SearchResult.html', movies = movies, ratings=ratings, details=details, genres=genres)
+        return render_template('searchOnly.html', movies = movies, ratings=ratings, details=details, genres=genres)
 
 # post DETAILS
 @app.route('/send_detail', methods = ['POST'])
