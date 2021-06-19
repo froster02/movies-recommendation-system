@@ -138,7 +138,7 @@ def show_director(dir):
     try:
         movie_index = director.index(dir)
     except:
-        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], []
+        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], [],[]
 
     similar_movies = list(enumerate(cs[movie_index]))
         
@@ -187,7 +187,7 @@ def show_genre(gen):
     try:
         movie_index = genre.index(gen)
     except:
-        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], []
+        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], [], []
 
     similar_movies = list(enumerate(cs[movie_index]))
         
