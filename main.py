@@ -70,7 +70,7 @@ def show_data(movie):
         # movie_index = df[df['title']==movie].index[0]
         movie_index = title.index(movie)
     except:
-        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], []
+        return['Sorry! The movie you requested is not in our database. Please check the spelling or try with other movies!'], ['¯\_(ツ)_/¯'], [], []
 
     # i = int(movie_index)
 
