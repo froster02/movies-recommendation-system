@@ -7,7 +7,7 @@ Procedure
 Step 1 : The dataset is used is downloaded from Kaggle.
          Dataset : https://www.kaggle.com/tmdb/tmdb-movie-metadata
        
-Step 2 : Cleaned the dataset in data_preprocessing file to remove the null values and to drop some fields.
+Step 2 : Cleaned the dataset in data_preprocessing.ipynb file to remove the null values and to drop some fields.
 
 Step 3 : Uploaded the dataset on to the MongoDB Atlas Cluster client globally.
 
