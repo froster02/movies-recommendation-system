@@ -1,4 +1,4 @@
-# python-movie-recommendation-system
+# movie-recommendation-system
 
 Content Based Recommender System recommends movies similar to the movie user likes.
 
