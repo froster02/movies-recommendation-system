@@ -5,7 +5,7 @@ Content Based Recommender System recommends movies similar to the movie user lik
 Recommendation is based on Cosine Similarity and Weighted Average.
 
 # Website
-https://testing-movies.herokuapp.com/
+visit link : https://testing-movies.herokuapp.com/
 
 # Procedure
 
